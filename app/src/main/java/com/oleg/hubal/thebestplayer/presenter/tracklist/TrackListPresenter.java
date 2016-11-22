@@ -30,31 +30,12 @@ public class TrackListPresenter implements TrackListPresenterContract {
     private LoaderManager.LoaderCallbacks<Cursor> mCursorLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            return new CursorLoader(mContext,
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    null,
-                    null,
-                    null,
-                    null);
+            return createCursorLoader();
         }
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            List<TrackItem> trackItems = new ArrayList<>();
-
-            if (data.moveToFirst()) {
-                do {
-                    int albumId = data.getInt(data.getColumnIndex(MediaStore.Audio.AlbumColumns.ALBUM_ID));
-                    Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
-                    String albumImage = uri.toString();
-                    String artist = data.getString(data.getColumnIndex(MediaStore.Audio.Media.ARTIST));
-                    artist = artist.replace("<unknown>", "");
-                    String title = data.getString(data.getColumnIndex(MediaStore.Audio.Media.TITLE));
-                    trackItems.add(new TrackItem(albumImage, artist, title));
-                } while (data.moveToNext());
-            }
-
-            mView.showTrackList(trackItems);
+            mView.showTrackList(parseCursorData(data));
         }
 
         @Override
@@ -73,6 +54,33 @@ public class TrackListPresenter implements TrackListPresenterContract {
     @Override
     public LoaderManager.LoaderCallbacks<Cursor> getTrackListLoader() {
         return mCursorLoader;
+    }
+
+    private CursorLoader createCursorLoader() {
+        return new CursorLoader(mContext,
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    private List<TrackItem> parseCursorData(Cursor data) {
+        List<TrackItem> trackItems = new ArrayList<>();
+
+        if (data.moveToFirst()) {
+            do {
+                int albumId = data.getInt(data.getColumnIndex(MediaStore.Audio.AlbumColumns.ALBUM_ID));
+                Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
+                String albumImage = uri.toString();
+                String artist = data.getString(data.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                artist = artist.replace("<unknown>", "");
+                String title = data.getString(data.getColumnIndex(MediaStore.Audio.Media.TITLE));
+                trackItems.add(new TrackItem(albumImage, artist, title));
+            } while (data.moveToNext());
+        }
+
+        return trackItems;
     }
 
     @Override
