@@ -9,12 +9,12 @@ public class TrackItem {
 
     private String albumImage;
     private String artist;
-    private String trackName;
+    private String title;
 
-    public TrackItem(String albumImage, String artist, String trackName) {
+    public TrackItem(String albumImage, String artist, String title) {
         this.albumImage = albumImage;
         this.artist = artist;
-        this.trackName = trackName;
+        this.title = title;
     }
 
     public String getArtist() {
@@ -25,12 +25,12 @@ public class TrackItem {
         this.artist = artist;
     }
 
-    public String getTrackName() {
-        return trackName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTrackName(String trackName) {
-        this.trackName = trackName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAlbumImage() {
