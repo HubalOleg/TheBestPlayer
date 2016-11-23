@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
 import com.oleg.hubal.thebestplayer.model.TrackItem;
+import com.oleg.hubal.thebestplayer.service.MusicService;
 import com.oleg.hubal.thebestplayer.view.tracklist.TrackListViewContract;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class TrackListPresenter implements TrackListPresenterContract {
     private final Context mContext;
     private TrackListViewContract mView;
     private List<TrackItem> mTrackItems;
+
+    private MusicService mMusicService;
 
 //    CALLBACK
 
@@ -94,5 +97,6 @@ public class TrackListPresenter implements TrackListPresenterContract {
 
     @Override
     public void onStop() {
+
     }
 }
