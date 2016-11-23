@@ -15,6 +15,7 @@ import com.oleg.hubal.thebestplayer.adapter.TrackListAdapter;
 import com.oleg.hubal.thebestplayer.model.TrackItem;
 import com.oleg.hubal.thebestplayer.presenter.tracklist.TrackListPresenter;
 import com.oleg.hubal.thebestplayer.presenter.tracklist.TrackListPresenterContract;
+import com.oleg.hubal.thebestplayer.view.MainActivity;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class TrackListFragment extends Fragment implements TrackListViewContract
 
     private TrackListPresenterContract mPresenter;
 
+    private OnTrackSelectionListener mOnTrackSelectionListener;
     private TrackListAdapter mTrackListAdapter;
 
 //    LISTENERS
@@ -35,6 +37,7 @@ public class TrackListFragment extends Fragment implements TrackListViewContract
     private TrackListAdapter.OnTrackItemClickListener mOnTrackItemClickListener = new TrackListAdapter.OnTrackItemClickListener() {
         @Override
         public void onTrackClicked(int position) {
+            mOnTrackSelectionListener.onTrackSelected(mPresenter.getTrackItemByPosition(position));
             mTrackListAdapter.setTrackSelected(position);
         }
 
@@ -54,6 +57,7 @@ public class TrackListFragment extends Fragment implements TrackListViewContract
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        mOnTrackSelectionListener = (MainActivity) context;
     }
 
     @Override
@@ -99,5 +103,9 @@ public class TrackListFragment extends Fragment implements TrackListViewContract
         if (mPresenter != null) {
             mPresenter.onStop();
         }
+    }
+
+    public interface OnTrackSelectionListener {
+        void onTrackSelected(TrackItem trackItem);
     }
 }

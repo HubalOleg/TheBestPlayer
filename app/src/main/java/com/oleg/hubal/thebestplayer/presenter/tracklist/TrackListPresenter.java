@@ -58,6 +58,11 @@ public class TrackListPresenter implements TrackListPresenterContract {
         return mCursorLoader;
     }
 
+    @Override
+    public TrackItem getTrackItemByPosition(int position) {
+        return mTrackItems.get(position);
+    }
+
     private CursorLoader createCursorLoader() {
         return new CursorLoader(mContext,
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -72,13 +77,15 @@ public class TrackListPresenter implements TrackListPresenterContract {
 
         if (data.moveToFirst()) {
             do {
+                String path = data.getString(data.getColumnIndex(MediaStore.Audio.Media.DATA));
                 int albumId = data.getInt(data.getColumnIndex(MediaStore.Audio.AlbumColumns.ALBUM_ID));
                 Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
                 String albumImage = uri.toString();
                 String artist = data.getString(data.getColumnIndex(MediaStore.Audio.Media.ARTIST));
                 artist = artist.replace("<unknown>", "");
                 String title = data.getString(data.getColumnIndex(MediaStore.Audio.Media.TITLE));
-                trackItems.add(new TrackItem(albumImage, artist, title));
+                long duration = data.getLong(data.getColumnIndex(MediaStore.Audio.Media.DURATION));
+                trackItems.add(new TrackItem(path, albumImage, artist, title, duration));
             } while (data.moveToNext());
         }
 

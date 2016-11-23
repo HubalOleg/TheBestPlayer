@@ -6,14 +6,26 @@ package com.oleg.hubal.thebestplayer.model;
 
 public class TrackItem extends SelectableItem {
 
+    private String path;
     private String albumImage;
     private String artist;
     private String title;
+    private long duration;
 
-    public TrackItem(String albumImage, String artist, String title) {
+    public TrackItem(String path, String albumImage, String artist, String title, long duration) {
+        this.path = path;
         this.albumImage = albumImage;
         this.artist = artist;
         this.title = title;
+        this.duration = duration;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getArtist() {
@@ -38,5 +50,13 @@ public class TrackItem extends SelectableItem {
 
     public void setAlbumImage(String albumImage) {
         this.albumImage = albumImage;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }

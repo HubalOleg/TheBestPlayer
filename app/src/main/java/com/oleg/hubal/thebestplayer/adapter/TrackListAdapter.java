@@ -88,7 +88,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             mAlbumArtImageView = (ImageView) itemView.findViewById(R.id.iv_album_art);
             mArtistTextView = (TextView) itemView.findViewById(R.id.tv_artist);
             mTitleTextView = (TextView) itemView.findViewById(R.id.tv_title);
-            mPlaylistQueueButton = (Button) itemView.findViewById(R.id.btn_playlist_queue);
+            mPlaylistQueueButton = (Button) itemView.findViewById(R.id.btn_playlst_queue);
         }
 
         public void onBind(final int position, TrackItem trackItem) {

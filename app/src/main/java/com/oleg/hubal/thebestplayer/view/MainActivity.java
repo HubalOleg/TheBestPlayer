@@ -11,10 +11,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.oleg.hubal.thebestplayer.R;
+import com.oleg.hubal.thebestplayer.model.TrackItem;
 import com.oleg.hubal.thebestplayer.view.audioplayer.AudioPlayerFragment;
 import com.oleg.hubal.thebestplayer.view.tracklist.TrackListFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TrackListFragment.OnTrackSelectionListener{
 
     public static String[] PERMISSION_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE};
     public static final int REQUEST_STORAGE = 0;
@@ -51,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.fl_player_track_list, mTrackListFragment)
                 .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onTrackSelected(TrackItem trackItem) {
+        if (mAudioPlayerFragment != null) {
+            mAudioPlayerFragment.setPlayerTrackItem(trackItem);
+        }
     }
 
     private void checkPermissionAndLoadMedia() {
