@@ -9,7 +9,7 @@
     tools:context="com.oleg.hubal.thebestplayer.view.MainActivity">
 
     <FrameLayout
-        android:id="@+id/fl_player_controller"
+        android:id="@+id/fl_audio_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <FrameLayout

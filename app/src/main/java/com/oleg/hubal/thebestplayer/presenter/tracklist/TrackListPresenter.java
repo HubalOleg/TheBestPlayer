@@ -24,6 +24,7 @@ public class TrackListPresenter implements TrackListPresenterContract {
 
     private final Context mContext;
     private TrackListViewContract mView;
+    private List<TrackItem> mTrackItems;
 
 //    CALLBACK
 
@@ -35,7 +36,8 @@ public class TrackListPresenter implements TrackListPresenterContract {
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            mView.showTrackList(parseCursorData(data));
+            mTrackItems = parseCursorData(data);
+            mView.showTrackList(mTrackItems);
         }
 
         @Override

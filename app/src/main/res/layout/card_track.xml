@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp">
+    android:layout_margin="2dp"
+    app:cardBackgroundColor="@drawable/item_color_selector">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                 android:id="@+id/tv_artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="artist"/>
+                android:layout_marginRight="4dp"/>
 
             <TextView
                 android:id="@+id/tv_title"
@@ -41,8 +42,7 @@
         <Button
             android:id="@+id/btn_playlist_queue"
             android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="btn"/>
+            android:layout_height="60dp"/>
 
     </LinearLayout>
 

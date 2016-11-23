@@ -4,8 +4,7 @@ package com.oleg.hubal.thebestplayer.model;
  * Created by User on 22.11.2016.
  */
 
-public class TrackItem {
-
+public class TrackItem extends SelectableItem {
 
     private String albumImage;
     private String artist;

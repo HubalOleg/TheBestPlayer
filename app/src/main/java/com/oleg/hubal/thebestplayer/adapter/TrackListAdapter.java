@@ -1,4 +1,4 @@
-package com.oleg.hubal.thebestplayer.utility.adapter;
+package com.oleg.hubal.thebestplayer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +24,9 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
     private final Context mContext;
     private OnTrackItemClickListener mOnTrackItemClickListener;
     private List<TrackItem> mTrackItems;
+    private ViewHolder[] mViewHolders;
+
+    private int mActivePosition = -1;
 
     public TrackListAdapter(Context context, OnTrackItemClickListener onTrackItemClickListener) {
         mContext = context;
@@ -40,7 +43,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.onBind(position, mTrackItems.get(position));
-
+        mViewHolders[position] = holder;
     }
 
     @Override
@@ -50,7 +53,25 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
 
     public void setData(List<TrackItem> trackItems) {
         mTrackItems = trackItems;
+        mViewHolders = new ViewHolder[mTrackItems.size()];
+        mActivePosition = -1;
         notifyDataSetChanged();
+    }
+
+    public void setTrackSelected(int position) {
+        if (mActivePosition != -1) {
+            mTrackItems.get(mActivePosition).setSelected(false);
+            mViewHolders[mActivePosition].changeSelection(false);
+        }
+
+        mTrackItems.get(position).setSelected(true);
+        mViewHolders[position].changeSelection(true);
+
+        mActivePosition = position;
+    }
+
+    public void setQueueSelected(int position) {
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,18 +95,24 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.View
             Picasso.with(mContext).load(trackItem.getAlbumImage()).into(mAlbumArtImageView);
             mArtistTextView.setText(trackItem.getArtist());
             mTitleTextView.setText(trackItem.getTitle());
+
             mItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mOnTrackItemClickListener.onTrackClicked(position);
                 }
             });
+
             mPlaylistQueueButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mOnTrackItemClickListener.onQueueClicked(position);
                 }
             });
+        }
+
+        public void changeSelection(boolean isSelected) {
+            mItemView.setSelected(isSelected);
         }
     }
 

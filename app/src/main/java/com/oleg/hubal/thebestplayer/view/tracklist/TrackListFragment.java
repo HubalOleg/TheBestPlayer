@@ -6,16 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.oleg.hubal.thebestplayer.R;
+import com.oleg.hubal.thebestplayer.adapter.TrackListAdapter;
 import com.oleg.hubal.thebestplayer.model.TrackItem;
 import com.oleg.hubal.thebestplayer.presenter.tracklist.TrackListPresenter;
 import com.oleg.hubal.thebestplayer.presenter.tracklist.TrackListPresenterContract;
-import com.oleg.hubal.thebestplayer.utility.adapter.TrackListAdapter;
 
 import java.util.List;
 
@@ -31,19 +30,17 @@ public class TrackListFragment extends Fragment implements TrackListViewContract
 
     private TrackListAdapter mTrackListAdapter;
 
-    private List<TrackItem> mTrackItems;
-
 //    LISTENERS
 
     private TrackListAdapter.OnTrackItemClickListener mOnTrackItemClickListener = new TrackListAdapter.OnTrackItemClickListener() {
         @Override
         public void onTrackClicked(int position) {
-            Log.d(TAG, "onTrackClicked: " + position);
+            mTrackListAdapter.setTrackSelected(position);
         }
 
         @Override
         public void onQueueClicked(int position) {
-            Log.d(TAG, "onQueueClicked: " + position);
+            mTrackListAdapter.setQueueSelected(position);
         }
     };
 
@@ -94,5 +91,13 @@ public class TrackListFragment extends Fragment implements TrackListViewContract
     @Override
     public void showTrackList(List<TrackItem> trackList) {
         mTrackListAdapter.setData(trackList);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mPresenter != null) {
+            mPresenter.onStop();
+        }
     }
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.oleg.hubal.thebestplayer.R;
+import com.oleg.hubal.thebestplayer.view.audioplayer.AudioPlayerFragment;
 import com.oleg.hubal.thebestplayer.view.tracklist.TrackListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,18 +21,30 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mRootContainer;
 
     private TrackListFragment mTrackListFragment;
+    private AudioPlayerFragment mAudioPlayerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        launchAudioPlayerFragment();
+
         if (savedInstanceState == null) {
-            checkPermissionAndLoadInterface();
+            checkPermissionAndLoadMedia();
         }
     }
 
-    private void launchPlayerInterface() {
+    private void launchAudioPlayerFragment() {
+        mAudioPlayerFragment = AudioPlayerFragment.newInstance();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fl_audio_player, mAudioPlayerFragment)
+                .commit();
+    }
+
+    private void launchTrackListFragment() {
         mTrackListFragment = TrackListFragment.newInstance();
 
         getSupportFragmentManager()
@@ -40,13 +53,13 @@ public class MainActivity extends AppCompatActivity {
                 .commitAllowingStateLoss();
     }
 
-    private void checkPermissionAndLoadInterface() {
+    private void checkPermissionAndLoadMedia() {
         mRootContainer = (LinearLayout) findViewById(R.id.activity_main);
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestExternalStoragePermission();
         } else {
-            launchPlayerInterface();
+            launchTrackListFragment();
         }
     }
 
@@ -74,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Snackbar.make(mRootContainer, R.string.permission_available_storage,
                         Snackbar.LENGTH_SHORT).show();
-                launchPlayerInterface();
+                launchTrackListFragment();
             } else {
                 Snackbar.make(mRootContainer, R.string.permissions_not_granted,
                         Snackbar.LENGTH_SHORT).show();
